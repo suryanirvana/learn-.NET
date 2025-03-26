@@ -1,0 +1,68 @@
+# User-specific files
+.vs/
+.vscode/
+.idea/
+
+# Windows
+Thumbs.db
+ehthumbs.db
+
+# .NET Build Results
+[Dd]ebug/
+[Dd]ebugPublic/
+[Dd]ist/
+[Dd]istros/
+[Dd]eploy/
+bin/
+obj/
+
+# .NET Core
+project.lock.json
+project.fragment.lock.json
+artifacts/
+
+# ASP.NET
+# User-specific files
+appsettings.Development.json
+appsettings.Test.json
+
+# Azure Functions
+.local/
+
+# User-specific files for Rider IDE
+.idea/
+
+# DotCover coverage files
+.idea/.ideaDotCover/
+
+# Windows Installer files
+*.cab
+*.msi
+*.msm
+*.msp
+
+# JetBrains Rider
+.idea/
+
+# Rider plugin config
+.idea/repository
+.idea/inspectionProfiles
+
+# ReSharper
+_ReSharper.*
+*.[Rr]eSharper
+
+# Windows Installer files
+*.cab
+*.msi
+*.msm
+*.msp
+
+# Npm and yarn files
+node_modules/
+yarn.lock
+
+# Npm logs
+npm-debug.log
+yarn-debug.log
+yarn-error.log
