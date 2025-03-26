@@ -20,3 +20,4 @@ dotnet watch run
 
 # What I Learn
 Day 1: setup project, 'beautify' OpenAPI using Scalar, setup PostgreSQL
+Day 2: 
