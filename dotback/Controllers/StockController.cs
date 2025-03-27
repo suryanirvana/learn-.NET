@@ -53,5 +53,46 @@ namespace dotback.Controllers
 
             return CreatedAtAction(nameof(GetById), new { id = stock.Id }, stock.ToStockDto());
         }
+
+        // TODO: add exceptions and validation
+        [HttpPut]
+        [Route("{id}")]
+        public IActionResult Update([FromRoute] int id, [FromBody] UpdateStockDto stockDto)
+        {
+            var stock = _context.Stock.FirstOrDefault(s => s.Id == id);
+
+            if (stock == null)
+            {
+                return NotFound();
+            }
+
+            stock.Symbol = stockDto.Symbol;
+            stock.Symbol = stockDto.Symbol;
+            stock.CompanyName = stockDto.CompanyName;
+            stock.Purchase = stockDto.Purchase;
+            stock.LastDiv = stockDto.LastDiv;
+            stock.Industry = stockDto.Industry;
+            stock.MarketCap = stockDto.MarketCap;
+            _context.SaveChanges();
+
+            return Ok(stock.ToStockDto());
+        }
+
+        [HttpDelete]
+        [Route("{id}")]
+        public IActionResult Delete([FromRoute] int id)
+        {
+            var stock = _context.Stock.FirstOrDefault(s => s.Id == id);
+
+            if (stock == null)
+            {
+                return NotFound();
+            }
+
+            _context.Stock.Remove(stock);
+            _context.SaveChanges();
+
+            return NoContent();
+        }
     }
 }
