@@ -1,10 +1,13 @@
 # Summary
 This is a learning project for ASP.NET, studying from a YouTube videos.
 
-Explanation:
+Explanation (for the not-so obvious one):
 - bin: compiled output
 - obj: generated files
-- Controllers: to store controller
+- Controllers: handling requests
+- Repository: data access
+- Interfaces: ...for all interfaces...
+- Mappers: data mappers
 - Models: data model
 - Properties: settings and configs
 - *.sln: container for projects

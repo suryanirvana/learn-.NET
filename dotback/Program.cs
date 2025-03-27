@@ -1,4 +1,6 @@
 using dotback.Data;
+using dotback.Interfaces;
+using dotback.Repository;
 using Microsoft.EntityFrameworkCore;
 using Scalar.AspNetCore;
 
@@ -15,6 +17,9 @@ builder.Services.AddOpenApi();
 builder.Services.AddDbContext<ApplicationDBContext>(options => {
     options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection"));
 });
+
+//
+builder.Services.AddScoped<IStockRepository, StockRepository>();
 
 var app = builder.Build();
 

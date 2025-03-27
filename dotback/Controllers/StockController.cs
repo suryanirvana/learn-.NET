@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using dotback.Data;
 using dotback.Dtos.Stock;
+using dotback.Interfaces;
 using dotback.Mappers;
 using Microsoft.AspNetCore.Mvc;
 
@@ -13,27 +14,25 @@ namespace dotback.Controllers
     [ApiController]
     public class StockController : ControllerBase
     {
-        private readonly ApplicationDBContext _context;
-        public StockController(ApplicationDBContext context)
+        private readonly IStockRepository _stockRepository;
+        public StockController(ApplicationDBContext context, IStockRepository stockRepository)
         {
-            _context = context;
+            _stockRepository = stockRepository;
         }
 
         [HttpGet]
-        public IActionResult GetAll()
+        public async Task<IActionResult> GetAll()
         {
-            // ToList() to make it executed bc its deferred execution
-            var stocks = _context.Stock.ToList()
-                            .Select(s => s.ToStockDto());
-            return Ok(stocks);
+            var stocks = await _stockRepository.GetAll();
+            var stocksDto = stocks.Select(s => s.ToStockDto());
+            return Ok(stocksDto);
         }
 
         // [FromRoute] to get the parameter
         [HttpGet("{id}")]
-        public IActionResult GetById([FromRoute] int id)
+        public async Task<IActionResult> GetById([FromRoute] int id)
         {
-            // Find is better if we get by id
-            var stock = _context.Stock.Find(id);
+            var stock = await _stockRepository.GetById(id);
             if (stock == null)
             {
                 return NotFound();
@@ -45,11 +44,10 @@ namespace dotback.Controllers
         // [FromBody] to get the request body
         // TODO: add exceptions
         [HttpPost]
-        public IActionResult Create([FromBody] CreateStockDto stockDto)
+        public async Task<IActionResult> Create([FromBody] CreateStockDto stockDto)
         {
             var stock = stockDto.ToStock();
-            _context.Stock.Add(stock);
-            _context.SaveChanges();
+            await _stockRepository.Create(stock);
 
             return CreatedAtAction(nameof(GetById), new { id = stock.Id }, stock.ToStockDto());
         }
@@ -57,40 +55,26 @@ namespace dotback.Controllers
         // TODO: add exceptions and validation
         [HttpPut]
         [Route("{id}")]
-        public IActionResult Update([FromRoute] int id, [FromBody] UpdateStockDto stockDto)
+        public async Task<IActionResult> Update([FromRoute] int id, [FromBody] UpdateStockDto stockDto)
         {
-            var stock = _context.Stock.FirstOrDefault(s => s.Id == id);
-
+            var stock = await _stockRepository.Update(id, stockDto);
             if (stock == null)
             {
                 return NotFound();
             }
-
-            stock.Symbol = stockDto.Symbol;
-            stock.Symbol = stockDto.Symbol;
-            stock.CompanyName = stockDto.CompanyName;
-            stock.Purchase = stockDto.Purchase;
-            stock.LastDiv = stockDto.LastDiv;
-            stock.Industry = stockDto.Industry;
-            stock.MarketCap = stockDto.MarketCap;
-            _context.SaveChanges();
 
             return Ok(stock.ToStockDto());
         }
 
         [HttpDelete]
         [Route("{id}")]
-        public IActionResult Delete([FromRoute] int id)
+        public async Task<IActionResult> Delete([FromRoute] int id)
         {
-            var stock = _context.Stock.FirstOrDefault(s => s.Id == id);
-
+            var stock = await _stockRepository.Delete(id);
             if (stock == null)
             {
                 return NotFound();
             }
-
-            _context.Stock.Remove(stock);
-            _context.SaveChanges();
 
             return NoContent();
         }
