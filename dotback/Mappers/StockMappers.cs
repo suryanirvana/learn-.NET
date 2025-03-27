@@ -22,5 +22,18 @@ namespace dotback.Mappers
                 MarketCap = stock.MarketCap
             };
         }
+
+        public static Stock ToStock(this BaseStockDto stockDto)
+        {
+            return new Stock
+            {
+                Symbol = stockDto.Symbol,
+                CompanyName = stockDto.CompanyName,
+                Purchase = stockDto.Purchase,
+                LastDiv = stockDto.LastDiv,
+                Industry = stockDto.Industry,
+                MarketCap = stockDto.MarketCap
+            };
+        }
     }
 }

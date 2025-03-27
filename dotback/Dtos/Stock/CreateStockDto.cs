@@ -5,8 +5,8 @@ using System.Threading.Tasks;
 
 namespace dotback.Dtos.Stock
 {
-    public class StockDto : BaseStockDto
+    public class CreateStockDto : BaseStockDto
     {
-        public int Id { get; set; }
+        
     }
 }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using dotback.Data;
+using dotback.Dtos.Stock;
 using dotback.Mappers;
 using Microsoft.AspNetCore.Mvc;
 
@@ -39,6 +40,18 @@ namespace dotback.Controllers
             }
             
             return Ok(stock.ToStockDto());
+        }
+
+        // [FromBody] to get the request body
+        // TODO: add exceptions
+        [HttpPost]
+        public IActionResult Create([FromBody] CreateStockDto stockDto)
+        {
+            var stock = stockDto.ToStock();
+            _context.Stock.Add(stock);
+            _context.SaveChanges();
+
+            return CreatedAtAction(nameof(GetById), new { id = stock.Id }, stock.ToStockDto());
         }
     }
 }
